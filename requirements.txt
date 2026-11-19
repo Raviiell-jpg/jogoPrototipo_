@@ -1,6 +1,2 @@
-PyQt6
-pygame
-pymysql
-pathlib
-subprocess
-sys
+pygame-ce>=2.5.0
+PyQt6>=6.5.0

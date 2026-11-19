@@ -67,6 +67,13 @@ def abrir_pagina(
 def _iniciar_jogo(
     janela: QStackedWidget, caminho: Path, botao: QPushButton
 ) -> None:
+    try:
+        import pygame
+        if pygame.mixer.get_init():
+            pygame.mixer.music.stop()
+    except Exception:
+        pass
+
     iniciou, _ = QProcess.startDetached(
         sys.executable,
         [str(caminho)],

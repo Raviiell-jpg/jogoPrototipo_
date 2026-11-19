@@ -45,9 +45,7 @@ class Mapa:
                 elif caractere == "P":
                     self.pos_inicial_jogador = (pos_x, pos_y)
                 elif caractere == "M":
-                    self.moedas.append(
-                        pygame.Rect(pos_x + 8, pos_y + 8, 16, 16)
-                    )
+                    pass  # Moedas removidas
                 elif caractere == "S":
                     self.espinhos.append(
                         pygame.Rect(pos_x, pos_y + 16, self.tile_size, 16)
@@ -228,17 +226,3 @@ class Mapa:
                         (45, 142, 126),
                         (visual_cura.x + 5, visual_cura.y + 13, 22, 6),
                     )
-
-        for moeda in self.moedas:
-            cx = moeda.centerx - camera_x
-            cy = moeda.centery - camera_y
-            if -16 < cx < largura_tela + 16 and -16 < cy < altura_tela + 16:
-                pygame.draw.circle(tela, (27, 55, 67), (cx, cy), 11)
-                cristal = [
-                    (cx, cy - 9),
-                    (cx + 6, cy),
-                    (cx, cy + 9),
-                    (cx - 6, cy),
-                ]
-                pygame.draw.polygon(tela, (77, 220, 196), cristal)
-                pygame.draw.polygon(tela, (178, 255, 229), cristal, 1)
