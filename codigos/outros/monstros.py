@@ -8,6 +8,12 @@ PASTA_IMAGENS_MONSTROS = (
     Path(__file__).resolve().parents[2] / "prites" / "mosntros"
 )
 EXTENSOES_IMAGEM = {".png", ".jpg", ".jpeg", ".bmp"}
+GRADE_MONSTROS = {"tatu": (2, 2), "rato": (2, 2), "lagartixa": (1, 4)}
+GRADE_ATAQUE_MONSTROS = {
+    "tatu": (1, 3),
+    "rato": (1, 3),
+    "lagartixa": (1, 3),
+}
 
 
 def carregar_imagens_monstros(

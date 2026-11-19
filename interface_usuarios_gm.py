@@ -23,6 +23,8 @@ from banco_dados import (
 from relatorios import gerar_relatorio_csv, gerar_relatorio_pdf
 
 
+FONTE_JOGO = "Press Start 2P"
+
 ESTILO_BASE = """
     QDialog, QWidget {
         background-color: #0d140e;
@@ -362,8 +364,14 @@ class DialogRanking(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Ranking Oficial de Speedrun - Por uma Gota")
-        self.setFixedSize(850, 560)
-        self.setStyleSheet(ESTILO_BASE)
+        self.setFixedSize(1520, 700)
+        self.setStyleSheet(ESTILO_BASE + f"""
+            QLabel, QPushButton, QCheckBox, QTableWidget,
+            QHeaderView::section {{
+                font-family: '{FONTE_JOGO}';
+                font-size: 14px;
+            }}
+        """)
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(20, 20, 20, 20)
@@ -371,19 +379,27 @@ class DialogRanking(QDialog):
 
         # Cabeçalho
         titulo = QLabel("🏆 LEADERBOARD DE SPEEDRUN", self)
-        titulo.setFont(QFont("Arial", 16, QFont.Weight.Bold))
+        titulo.setFont(QFont(FONTE_JOGO, 20, QFont.Weight.Bold))
         titulo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        titulo.setStyleSheet("color: #39ff14; letter-spacing: 2px;")
+        titulo.setStyleSheet(
+            f"color: #39ff14; letter-spacing: 2px; "
+            f"font-family: '{FONTE_JOGO}'; font-size: 20px; font-weight: bold;"
+        )
         layout.addWidget(titulo)
 
         subtitulo = QLabel("Os sobreviventes mais rápidos a descer a torre e alcançar o reservatório de água pura.", self)
+        subtitulo.setFont(QFont(FONTE_JOGO, 14))
         subtitulo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        subtitulo.setStyleSheet("color: #92bfa0; font-size: 12px;")
+        subtitulo.setWordWrap(True)
+        subtitulo.setStyleSheet(
+            f"color: #92bfa0; font-family: '{FONTE_JOGO}'; font-size: 14px;"
+        )
         layout.addWidget(subtitulo)
 
         # Barra de Filtros e Atualizar
         barra_controles = QHBoxLayout()
         self.chk_apenas_oficiais = QCheckBox("")
+        self.chk_apenas_oficiais.setFont(QFont(FONTE_JOGO, 14))
         self.chk_apenas_oficiais.setChecked(True)
         self.chk_apenas_oficiais.toggled.connect(self.carregar_ranking)
         barra_controles.addWidget(self.chk_apenas_oficiais)
@@ -391,17 +407,24 @@ class DialogRanking(QDialog):
         barra_controles.addStretch()
 
         btn_atualizar = QPushButton("🔄 Atualizar Ranking")
+        btn_atualizar.setFont(QFont(FONTE_JOGO, 14))
         btn_atualizar.clicked.connect(self.carregar_ranking)
         barra_controles.addWidget(btn_atualizar)
         layout.addLayout(barra_controles)
 
         # Tabela
         self.tabela = QTableWidget()
+        self.tabela.setFont(QFont(FONTE_JOGO, 14))
         self.tabela.setColumnCount(5)
         self.tabela.setHorizontalHeaderLabels([
             "Posição", "Jogador", "Tempo", "Inimigos Eliminados", "Data"
         ])
-        self.tabela.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.tabela.horizontalHeader().setFont(QFont(FONTE_JOGO, 14, QFont.Weight.Bold))
+        self.tabela.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
+        for column, width in enumerate((140, 380, 200, 400, 320)):
+            self.tabela.setColumnWidth(column, width)
+        self.tabela.verticalHeader().setFont(QFont(FONTE_JOGO, 14))
+        self.tabela.verticalHeader().setDefaultSectionSize(36)
         self.tabela.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.tabela.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         layout.addWidget(self.tabela)
@@ -409,12 +432,14 @@ class DialogRanking(QDialog):
         # Rodapé
         rodape = QHBoxLayout()
         self.lbl_total_recordes = QLabel("")
+        self.lbl_total_recordes.setFont(QFont(FONTE_JOGO, 14))
         self.lbl_total_recordes.setStyleSheet("color: #79a87d;")
         rodape.addWidget(self.lbl_total_recordes)
 
         rodape.addStretch()
 
         btn_fechar = QPushButton("FECHAR")
+        btn_fechar.setFont(QFont(FONTE_JOGO, 14))
         btn_fechar.clicked.connect(self.accept)
         rodape.addWidget(btn_fechar)
         layout.addLayout(rodape)
@@ -444,7 +469,7 @@ class DialogRanking(QDialog):
             item_tempo = QTableWidgetItem(r["tempo_formatado"])
             item_tempo.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             item_tempo.setForeground(QColor("#39ff14"))
-            item_tempo.setFont(QFont("Arial", 11, QFont.Weight.Bold))
+            item_tempo.setFont(QFont(FONTE_JOGO, 14, QFont.Weight.Bold))
 
             item_inimigos = QTableWidgetItem(str(r.get("inimigos_derrotados", 0)))
             item_inimigos.setTextAlignment(Qt.AlignmentFlag.AlignCenter)

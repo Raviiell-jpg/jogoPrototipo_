@@ -33,6 +33,8 @@ from codigos.mapa.mapa_prototipo import Mapa
 from codigos.outros.combate import SistemaCombate
 from codigos.outros.inimigos import Inimigo
 from codigos.outros.monstros import (
+    GRADE_ATAQUE_MONSTROS,
+    GRADE_MONSTROS,
     carregar_imagens_monstros,
     separar_spritesheet,
 )
@@ -91,15 +93,19 @@ except Exception as e:
 # Fontes do sistema
 def carregar_fonte(tamanho, negrito=True):
     try:
-        return pygame.font.SysFont("Press Start 2P", tamanho, bold=negrito)
+        return pygame.font.SysFont("pressstart2pregular", tamanho, bold=negrito)
     except Exception:
-        return pygame.font.SysFont("consolas", tamanho + 2, bold=negrito)
+        return pygame.font.SysFont("pressstart2pregular", tamanho + 2, bold=negrito)
 
-fonte_titulo = carregar_fonte(32)
-fonte_media = carregar_fonte(14)
-fonte_timer = carregar_fonte(18)
-fonte_pequena = carregar_fonte(10)
-fonte_status = carregar_fonte(9, negrito=False)
+fonte_titulo = carregar_fonte(16)
+fonte_media = carregar_fonte(9)
+fonte_timer = carregar_fonte(15)
+fonte_pequena = carregar_fonte(12)
+fonte_status = carregar_fonte(10, negrito=False)
+fonte_resultado_titulo = carregar_fonte(30)
+fonte_resultado_texto = carregar_fonte(18)
+fonte_resultado_tempo = carregar_fonte(24)
+fonte_resultado_detalhe = carregar_fonte(14)
 
 # ------------------------------------------------------------------------
 # 3. CARREGAMENTO DE SPRITES E ANIMAÇÕES
@@ -156,12 +162,18 @@ sprite_parado_esq = pygame.transform.flip(sprite_parado, True, False)
 monstros_quadros = {}
 try:
     imgs_monstros = carregar_imagens_monstros()
-    GRADE_MONSTROS = {"tatu": (2, 2), "rato": (2, 2), "lagartixa": (1, 4)}
     for nome, (lin, col) in GRADE_MONSTROS.items():
         if nome in imgs_monstros:
             q_norm = separar_spritesheet(imgs_monstros[nome], lin, col)
             atk_key = nome + "Ataque"
-            q_atk = separar_spritesheet(imgs_monstros[atk_key], lin, col) if atk_key in imgs_monstros else None
+            linhas_atk, colunas_atk = GRADE_ATAQUE_MONSTROS[nome]
+            q_atk = (
+                separar_spritesheet(
+                    imgs_monstros[atk_key], linhas_atk, colunas_atk
+                )
+                if atk_key in imgs_monstros
+                else None
+            )
             monstros_quadros[nome] = (q_norm, q_atk)
 except Exception as e:
     print(f"Aviso ao carregar sprites de monstros: {e}")
@@ -375,7 +387,7 @@ while executando:
                     if mapa.zona_saida:
                         jogador_rect.topleft = (mapa.zona_saida.x + 20, mapa.zona_saida.y - 10)
                         vel_x = vel_y = 0
-                        registrar_acao_gm("Teleporte", "Reservatorio / Saida final")
+                        registrar_acao_gm("Teleporte", "Caverna")
                 elif evento.key == pygame.K_6 or evento.key == pygame.K_F7:
                     mapa.kits_medicos.clear()
                     saude.curar(100)
@@ -770,38 +782,38 @@ while executando:
         cx = LARGURA_TELA // 2
         cy = ALTURA_TELA // 2
 
-        txt_v1 = fonte_titulo.render("FUGA BEM-SUCEDIDA!", True, (57, 255, 20))
+        txt_v1 = fonte_resultado_titulo.render("FUGA BEM-SUCEDIDA!", True, (57, 255, 20))
         tela.blit(txt_v1, txt_v1.get_rect(center=(cx, cy - 160)))
 
-        txt_v2 = fonte_media.render("Você alcançou o reservatório subterrâneo de água pura!", True, (210, 255, 210))
+        txt_v2 = fonte_resultado_texto.render("Você alcançou o reservatório subterrâneo de água pura!", True, (210, 255, 210))
         tela.blit(txt_v2, txt_v2.get_rect(center=(cx, cy - 110)))
 
-        txt_v3 = fonte_timer.render(f"TEMPO FINAL: {formatar_tempo_ms(tempo_final_ms)}", True, (255, 255, 255))
+        txt_v3 = fonte_resultado_tempo.render(f"TEMPO FINAL: {formatar_tempo_ms(tempo_final_ms)}", True, (255, 255, 255))
         tela.blit(txt_v3, txt_v3.get_rect(center=(cx, cy - 60)))
 
         if novo_recorde:
-            txt_rec_novo = fonte_media.render("★ NOVO RECORDE PESSOAL SALVO NO BANCO SQLITE! ★", True, (255, 215, 0))
+            txt_rec_novo = fonte_resultado_texto.render("★ NOVO RECORDE PESSOAL SALVO NO BANCO SQLITE! ★", True, (255, 215, 0))
             tela.blit(txt_rec_novo, txt_rec_novo.get_rect(center=(cx, cy - 20)))
 
         if usou_gm:
-            txt_gm_descl = fonte_pequena.render("⚠️ Partida com auxílio de GM (não inclusa no ranking oficial)", True, (255, 120, 120))
+            txt_gm_descl = fonte_resultado_detalhe.render("⚠️ Partida com auxílio de GM (não inclusa no ranking oficial)", True, (255, 120, 120))
             tela.blit(txt_gm_descl, txt_gm_descl.get_rect(center=(cx, cy + 15)))
 
         estat_str = f"Inimigos Eliminados: {inimigos_derrotados}/{total_inimigos_fase}"
-        txt_estat = fonte_pequena.render(estat_str, True, (180, 230, 190))
+        txt_estat = fonte_resultado_detalhe.render(estat_str, True, (180, 230, 190))
         tela.blit(txt_estat, txt_estat.get_rect(center=(cx, cy + 50)))
 
         # Mini Leaderboard do SQLite
         ranking_top = banco.obter_ranking(limite=3, apenas_legitimos=True)
         if ranking_top:
-            txt_rk_header = fonte_pequena.render("--- TOP 3 SOBREVIVENTES NO LEADERBOARD SQLITE ---", True, (135, 206, 250))
+            txt_rk_header = fonte_resultado_detalhe.render("--- TOP 3 SOBREVIVENTES NO LEADERBOARD SQLITE ---", True, (135, 206, 250))
             tela.blit(txt_rk_header, txt_rk_header.get_rect(center=(cx, cy + 95)))
             for idx, rk in enumerate(ranking_top):
                 linha_rk = f"#{rk['posicao']} {rk['username']} - {rk['tempo_formatado']} (Abates: {rk.get('inimigos_derrotados', 0)})"
-                txt_lrk = fonte_pequena.render(linha_rk, True, (240, 240, 240))
+                txt_lrk = fonte_resultado_detalhe.render(linha_rk, True, (240, 240, 240))
                 tela.blit(txt_lrk, txt_lrk.get_rect(center=(cx, cy + 120 + (idx * 24))))
 
-        txt_controles_v = fonte_pequena.render("[R] JOGAR NOVAMENTE   |   [TAB] VER RANKING COMPLETO   |   [ESC] SAIR", True, (120, 255, 170))
+        txt_controles_v = fonte_resultado_detalhe.render("[R] JOGAR NOVAMENTE   |   [TAB] VER RANKING COMPLETO   |   [ESC] SAIR", True, (120, 255, 170))
         tela.blit(txt_controles_v, txt_controles_v.get_rect(center=(cx, cy + 225)))
 
     # --------------------------------------------------------------------

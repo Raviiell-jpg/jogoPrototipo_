@@ -187,7 +187,9 @@ class Menu(QWidget):
             self.btn_login_perfil.setText("MEU PERFIL")
             self.btn_logout.setVisible(True)
         else:
-            self.lbl_usuario.setText("👤 Visitante (Offline)")
+            self.lbl_usuario.setText("Visitante")
+            self.lbl_usuario.setFont(QFont("Press Start 2P", 10, QFont.Weight.Bold))
+            self.lbl_usuario.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.lbl_usuario.setStyleSheet(
                 "color: #A0C0A0; background-color: rgba(10, 20, 15, 200); "
                 "border: 2px solid #507050; border-radius: 4px; padding: 8px 12px;"
@@ -343,17 +345,17 @@ class Menu(QWidget):
         msg.setInformativeText(
             "OBJETIVO:\n"
             "• Desça pelo edifício contaminado sobrevivendo aos perigos do sertão radioativo.\n"
-            "• Supere os monstros mutantes e alcance a zona de fuga no reservatório subterrâneo.\n\n"
+            "• Supere os monstros mutantes e alcance a zona de fuga.\n\n"
             "CONTROLES DO JOGADOR:\n"
             "• Movimento: Teclas A / D ou Setas Esquerda / Direita\n"
-            "• Pulo: Barra de Espaço ou Seta Cima (com buffer e coyote time)\n"
-            "• Ataque: Tecla J ou Z (golpe cortante com espada)\n"
-            "• Defesa: Tecla K ou X (escudo com 80% de absorção e repulsão)\n\n"
+            "• Pulo: Barra de Espaço ou Seta Cima\n"
+            "• Ataque: Tecla J ou Z\n"
+            "• Defesa: Tecla K ou X \n\n"
             "INTERAÇÕES COM O MAPA:\n"
             "• Portas Blindadas: Pressione [E] para abrir ou fechar as portas de segurança.\n"
             "• Escadas de Incêndio: Use W/S ou Cima/Baixo para subir e descer pelas longarinas.\n"
             "• Armadilhas do Teto: Tremores e poeira avisam desabamentos iminentes.\n"
-            "• Kits Médicos de Cura (H): Passe sobre eles para restaurar sua vida.\n\n"
+            "• Kits Médicos de Cura: Passe sobre eles para restaurar sua vida.\n\n"
         )
         msg.setIcon(QMessageBox.Icon.Information)
         msg.exec()
