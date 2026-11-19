@@ -18,9 +18,15 @@ PASTA_PROJETO = Path(__file__).resolve().parents[1]
 class CenaHistoria(QWidget):
     def __init__(self):
         super().__init__()
-        pygame.mixer.init()
-        pygame.mixer.music.load(str(PASTA_PROJETO / "musicas" / "zelda.mp3"))
-        pygame.mixer.music.play(-1)
+        try:
+            if not pygame.mixer.get_init():
+                pygame.mixer.init()
+            caminho_m = PASTA_PROJETO / "musicas" / "zelda.mp3"
+            if caminho_m.is_file():
+                pygame.mixer.music.load(str(caminho_m))
+                pygame.mixer.music.play(-1)
+        except Exception as e:
+            print(f"Aviso de áudio (não crítico): {e}")
 
         self.setWindowTitle("Por uma Gota - História")
         self.setFixedSize(1600, 900)
@@ -81,6 +87,27 @@ class CenaHistoria(QWidget):
             """
         )
         self.continuar.clicked.connect(self.iniciar_jogo)
+
+        # Botão Pular História (canto direito inferior)
+        self.btn_pular = QPushButton("PULAR", self)
+        self.btn_pular.setGeometry(1340, 800, 210, 65)
+        self.btn_pular.setFont(QFont("Press Start 2P", 14, QFont.Weight.Bold))
+        self.btn_pular.setStyleSheet(
+            """
+            QPushButton {
+                background-color: lightblue;
+                color: white;
+                border: 3px solid #2874A6;
+                padding: 8px;
+            }
+            QPushButton:hover {
+                background-color: #5DADE2;
+                color: white;
+            }
+            """
+        )
+        self.btn_pular.clicked.connect(self.iniciar_jogo)
+
         self.fundo.lower()
 
     def iniciar_jogo(self):

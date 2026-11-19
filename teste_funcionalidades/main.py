@@ -222,11 +222,6 @@ while executando:
                 if saude.curar(25):
                     mapa.kits_medicos.remove(kit)
 
-        # Coleta de moedas
-        for moeda in mapa.moedas[:]:
-            if jogador_rect.colliderect(moeda):
-                mapa.moedas.remove(moeda)
-
     # Câmera
     camera_x = jogador_rect.centerx - LARGURA_TELA // 2
     camera_y = jogador_rect.centery - ALTURA_TELA // 2

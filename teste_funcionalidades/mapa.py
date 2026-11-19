@@ -98,7 +98,7 @@ class Mapa:
                 elif caractere == "P":
                     self.pos_inicial_jogador = (pos_x, pos_y)
                 elif caractere == "M":
-                    self.moedas.append(pygame.Rect(pos_x + 8, pos_y + 8, 16, 16))
+                    pass  # Moedas descontinuadas
                 elif caractere == "S":
                     self.espinhos.append(pygame.Rect(pos_x, pos_y + 16, self.tile_size, 16))
                 elif caractere == "H":
@@ -132,10 +132,3 @@ class Mapa:
                 pygame.draw.rect(tela, (240, 240, 240), (kx, ky, 20, 20), border_radius=3)
                 pygame.draw.rect(tela, (46, 204, 113), (kx + 8, ky + 3, 4, 14))
                 pygame.draw.rect(tela, (46, 204, 113), (kx + 3, ky + 8, 14, 4))
-
-        # Moedas
-        for moeda in self.moedas:
-            cx = moeda.centerx - camera_x
-            cy = moeda.centery - camera_y
-            if -16 < cx < largura_tela + 16 and -16 < cy < altura_tela + 16:
-                pygame.draw.circle(tela, (255, 215, 0), (cx, cy), 8)

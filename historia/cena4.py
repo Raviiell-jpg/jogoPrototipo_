@@ -76,11 +76,36 @@ class CenaHistoria(QWidget):
             """
         )
         self.continuar.clicked.connect(self.iniciar_jogo)
+
+        # Botão Pular História (canto direito inferior)
+        self.btn_pular = QPushButton("PULAR", self)
+        self.btn_pular.setGeometry(1340, 800, 210, 65)
+        self.btn_pular.setFont(QFont("Press Start 2P", 14, QFont.Weight.Bold))
+        self.btn_pular.setStyleSheet(
+            """
+            QPushButton {
+                background-color: lightblue;
+                color: white;
+                border: 3px solid #2874A6;
+                padding: 8px;
+            }
+            QPushButton:hover {
+                background-color: #5DADE2;
+                color: white;
+            }
+            """
+        )
+        self.btn_pular.clicked.connect(self.pular_historia)
+
         self.fundo.lower()
 
     def iniciar_jogo(self):
         caminho_jogo = PASTA_PROJETO / "historia" / "cena5.py"
         abrir_pagina(self, caminho_jogo, self.continuar)
+
+    def pular_historia(self):
+        caminho_jogo = PASTA_PROJETO / "main.py"
+        abrir_pagina(self, caminho_jogo, self.btn_pular)
 
 
 if __name__ == "__main__":
