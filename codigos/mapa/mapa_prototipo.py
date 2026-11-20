@@ -538,6 +538,21 @@ class Mapa:
             self.sprite_porta_aberta = self.sprite_porta_direita
 
         self._processar_dados()
+        self.sprite_saida = None
+        if self.sprite_porta_esquerda is not None:
+            altura_saida = max(1, self.zona_saida.height)
+            largura_saida = max(
+                1,
+                round(
+                    altura_saida
+                    * self.sprite_porta_esquerda.get_width()
+                    / self.sprite_porta_esquerda.get_height()
+                ),
+            )
+            self.sprite_saida = pygame.transform.scale(
+                self.sprite_porta_esquerda, (largura_saida, altura_saida)
+            )
+
         self.textura_mapa = pygame.Surface((self.largura, self.altura))
         largura_textura, altura_textura = self.textura_chao.get_size()
         for y in range(0, self.altura, altura_textura):
@@ -835,22 +850,37 @@ class Mapa:
             zx = self.zona_saida.x - camera_x
             zy = self.zona_saida.y - camera_y
             if -120 < zx < largura_tela + 120 and -120 < zy < altura_tela + 120:
-                luz_surface = pygame.Surface((self.zona_saida.width, 200), pygame.SRCALPHA)
-                luz_surface.fill((57, 255, 20, 45))
-                tela.blit(luz_surface, (zx, zy - 136))
-
-                rect_tela = pygame.Rect(zx, zy, self.zona_saida.width, self.zona_saida.height)
-                pygame.draw.rect(tela, (15, 40, 25), rect_tela, border_radius=6)
-                pygame.draw.rect(tela, (57, 255, 20), rect_tela, 3, border_radius=6)
-
                 centro_x = zx + self.zona_saida.width // 2
-                centro_y = zy + self.zona_saida.height // 2
-                pygame.draw.circle(tela, (0, 255, 200), (centro_x, centro_y), 18)
-                pygame.draw.circle(tela, (255, 255, 255), (centro_x, centro_y), 9)
+                if self.sprite_saida is not None:
+                    porta_rect = self.sprite_saida.get_rect(
+                        midbottom=(
+                            centro_x,
+                            zy + self.zona_saida.height,
+                        )
+                    )
+                    tela.blit(self.sprite_saida, porta_rect)
+                else:
+                    porta_rect = pygame.Rect(
+                        zx + self.zona_saida.width // 4,
+                        zy,
+                        self.zona_saida.width // 2,
+                        self.zona_saida.height,
+                    )
+                    pygame.draw.rect(tela, (75, 58, 45), porta_rect)
+                    pygame.draw.rect(
+                        tela, (25, 34, 31), porta_rect.inflate(-10, -8)
+                    )
+                    pygame.draw.line(
+                        tela,
+                        (100, 82, 57),
+                        (centro_x, porta_rect.top + 6),
+                        (centro_x, porta_rect.bottom - 6),
+                        3,
+                    )
 
                 try:
-                    fonte_tag = pygame.font.SysFont("consolas", 13, bold=True)
-                    tag_texto = fonte_tag.render("SAIDA / RESERVATORIO", True, (57, 255, 20))
+                    fonte_tag = pygame.font.SysFont("pressstart2pregular", 13, bold=True)
+                    tag_texto = fonte_tag.render("CAVERNA", True, (57, 255, 20))
                     tag_rect = tag_texto.get_rect(center=(centro_x, zy - 15))
                     tela.blit(tag_texto, tag_rect)
                 except Exception:

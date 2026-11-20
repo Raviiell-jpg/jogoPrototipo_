@@ -9,9 +9,9 @@ class SistemaSaude:
         self.tempo_imunidade_max = tempo_imunidade_max
 
         # Fontes do HUD com fallback gracioso e sem warnings de sistema
-        self.fonte_hud = pygame.font.SysFont("Press Start 2P, consolas, arial", 16, bold=True)
-        self.fonte_game_over = pygame.font.SysFont("Press Start 2P, consolas, arial", 48, bold=True)
-        self.fonte_sub = pygame.font.SysFont("Press Start 2P, consolas, arial", 22)
+        self.fonte_hud = pygame.font.SysFont("pressstart2pregular", 16, bold=True)
+        self.fonte_game_over = pygame.font.SysFont("pressstart2pregular", 48, bold=True)
+        self.fonte_sub = pygame.font.SysFont("pressstart2pregular", 22)
 
     def tomar_dano(self, quantidade=25):
         """Aplica dano caso o jogador não esteja no período de invulnerabilidade."""
