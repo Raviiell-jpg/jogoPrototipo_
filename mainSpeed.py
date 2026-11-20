@@ -30,6 +30,7 @@ if str(PASTA_PROJETO) not in sys.path:
 
 from banco_dados import BancoDados
 from codigos.mapa.mapa_prototipo import Mapa
+from codigos.mapa.mapa_chefe import MapaChefe
 from codigos.outros.combate import SistemaCombate
 from codigos.outros.inimigos import Inimigo
 from codigos.outros.monstros import (
@@ -181,6 +182,7 @@ except Exception as e:
 # ------------------------------------------------------------------------
 # 4. INSTANCIAÇÃO DOS MÓDULOS DE JOGO
 # ------------------------------------------------------------------------
+fase_atual = "predio"
 mapa = Mapa()
 saude = SistemaSaude(vida_maxima=100)
 combate = SistemaCombate()
@@ -189,7 +191,7 @@ total_inimigos_fase = len(mapa.inimigos_iniciais)
 
 def criar_inimigos():
     lista = []
-    nomes_disponiveis = list(monstros_quadros.keys()) if monstros_quadros else []
+    nomes_disponiveis = [k for k in monstros_quadros.keys() if k != "sapo"] if monstros_quadros else []
     for x, y in mapa.inimigos_iniciais:
         if nomes_disponiveis:
             nome_escolhido = random.choice(nomes_disponiveis)
@@ -197,6 +199,18 @@ def criar_inimigos():
             lista.append(Inimigo(x, y, quadros=q_n, quadros_ataque=q_a))
         else:
             lista.append(Inimigo(x, y))
+    return lista
+
+def criar_inimigos_chefe():
+    lista = []
+    if "sapo" in monstros_quadros:
+        q_norm, q_atk = monstros_quadros["sapo"]
+        for x, y in mapa.inimigos_iniciais:
+            lista.append(Inimigo(x, y, largura=48, altura=52, vida=250,
+                                  velocidade=2, quadros=q_norm, quadros_ataque=q_atk))
+    else:
+        for x, y in mapa.inimigos_iniciais:
+            lista.append(Inimigo(x, y, largura=48, altura=52, vida=250))
     return lista
 
 inimigos = criar_inimigos()
@@ -269,8 +283,11 @@ def formatar_tempo_ms(ms):
 def reiniciar_jogo():
     global vel_x, vel_y, vel_recuo_x, no_chao, pulando, inimigos
     global tempo_inicio_ms, tempo_final_ms, corrida_finalizada, novo_recorde
-    global inimigos_derrotados, usou_gm
+    global inimigos_derrotados, usou_gm, fase_atual, mapa, total_inimigos_fase
 
+    fase_atual = "predio"
+    mapa = Mapa()
+    total_inimigos_fase = len(mapa.inimigos_iniciais)
     jogador_rect.topleft = mapa.pos_inicial_jogador
     saude.reiniciar()
     combate.parar_defesa()
@@ -625,21 +642,30 @@ while executando:
                 if saude.curar(25):
                     mapa.kits_medicos.remove(kit)
 
-        # Vitória / Chegada ao Reservatório de Água (Saída)
+        # Saída / Transição de Mapa ou Vitória Final
         if mapa.zona_saida and jogador_rect.colliderect(mapa.zona_saida) and not corrida_finalizada:
-            corrida_finalizada = True
-            tempo_final_ms = pygame.time.get_ticks() - tempo_inicio_ms
+            if fase_atual == "predio":
+                fase_atual = "chefe"
+                mapa = MapaChefe()
+                jogador_rect.topleft = mapa.pos_inicial_jogador
+                vel_x = vel_y = 0
+                vel_recuo_x = 0.0
+                inimigos = criar_inimigos_chefe()
+                total_inimigos_fase += len(inimigos)
+            else:
+                corrida_finalizada = True
+                tempo_final_ms = pygame.time.get_ticks() - tempo_inicio_ms
 
-            # Gravar no SQLite
-            if usuario_id is not None:
-                novo_recorde = banco.registrar_speedrun(
-                    usuario_id=usuario_id,
-                    tempo_ms=tempo_final_ms,
-                    inimigos_derrotados=inimigos_derrotados,
-                    total_inimigos=total_inimigos_fase,
-                    usou_gm=usou_gm,
-                )
-                recorde_pessoal = banco.obter_recorde_pessoal(usuario_id)
+                # Gravar no SQLite
+                if usuario_id is not None:
+                    novo_recorde = banco.registrar_speedrun(
+                        usuario_id=usuario_id,
+                        tempo_ms=tempo_final_ms,
+                        inimigos_derrotados=inimigos_derrotados,
+                        total_inimigos=total_inimigos_fase,
+                        usou_gm=usou_gm,
+                    )
+                    recorde_pessoal = banco.obter_recorde_pessoal(usuario_id)
 
     # Toast Timer
     if tempo_toast_gm > 0:

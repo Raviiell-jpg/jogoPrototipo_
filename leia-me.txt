@@ -1,0 +1,1 @@
+Para inciar o jogo, abra "tela_inicio" e rode o código.

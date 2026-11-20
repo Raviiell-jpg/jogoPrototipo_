@@ -879,8 +879,8 @@ class Mapa:
                     )
 
                 try:
-                    fonte_tag = pygame.font.SysFont("consolas", 13, bold=True)
-                    tag_texto = fonte_tag.render("SAIDA / RESERVATORIO", True, (57, 255, 20))
+                    fonte_tag = pygame.font.SysFont("pressstart2pregular", 13, bold=True)
+                    tag_texto = fonte_tag.render("CAVERNA", True, (57, 255, 20))
                     tag_rect = tag_texto.get_rect(center=(centro_x, zy - 15))
                     tela.blit(tag_texto, tag_rect)
                 except Exception:
