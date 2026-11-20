@@ -6,26 +6,26 @@ TILE_SIZE = 32
 
 # Lista original mantida para não quebrar seu código atual (coluna, linha)
 INIMIGOS_INICIAIS = [
-    (39, 4), (9, 10), (43, 10), (70, 10),
-    (15, 16), (43, 22), (9, 28), (63, 28),
-    (38, 34), (73, 40), (17, 46), (40, 52),
-    (15, 58), (42, 64), (62, 64),
+    (39, 4), (9, 12), (43, 12), (70, 12),
+    (15, 20), (43, 28), (9, 36), (63, 36),
+    (38, 44), (73, 52), (17, 60), (40, 68),
+    (15, 76), (42, 84), (62, 84),
 ]
 
 # Nova lista detalhada caso queira instanciar cada monstro específico: (coluna, linha, tipo)
 INIMIGOS_DETALHADOS = [
     (39, 4, "moco"),
-    (9, 10, "tatu"), (43, 10, "calango"), (70, 10, "moco"),
-    (15, 16, "calango"),
-    (43, 22, "tatu"),
-    (9, 28, "moco"), (63, 28, "calango"),
-    (38, 34, "tatu"),
-    (73, 40, "calango"),
-    (17, 46, "tatu"),
-    (40, 52, "moco"),
-    (15, 58, "calango"),
-    (42, 64, "tatu"),
-    (62, 64, "boss"),  # Sapo Boss guardando a saída no Térreo!
+    (9, 12, "tatu"), (43, 12, "calango"), (70, 12, "moco"),
+    (15, 20, "calango"),
+    (43, 28, "tatu"),
+    (9, 36, "moco"), (63, 36, "calango"),
+    (38, 44, "tatu"),
+    (73, 52, "calango"),
+    (17, 60, "tatu"),
+    (40, 68, "moco"),
+    (15, 76, "calango"),
+    (42, 84, "tatu"),
+    (62, 84, "boss"),  # Sapo Boss guardando a saída no Térreo!
 ]
 
 # Legenda do Mapa:
@@ -37,7 +37,9 @@ DADOS_MAPA = [
     "X           M                          H                            M          X",
     "X                         XXXXXXXXX                    XXXXXXXXX               X",
     "X                                                                              X",
-    "X  P M             H     SSSS      M            M               M              X",
+    "X P M             H     SSSS      M            M               M               X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXX",
     # 10º Andar
     "X      R         LLL    X         R         LLL                XLLL     R      X",
@@ -45,6 +47,8 @@ DADOS_MAPA = [
     "X                LLL    X                   LLL                XLLL            X",
     "X              XXXXX    D      H            LLL  XXXXX         DLLL H    XXXXX X",
     "X                       D   XXXXXXXX        LLL                DLLL XXXXX      X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXLLLXXXXXXXXXXXXXXXXX                   XXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXX",
     # 9º Andar
     "X    LLL     R          X            R                         XLLL      R     X",
@@ -52,6 +56,8 @@ DADOS_MAPA = [
     "X    LLLXXXXXXX         X          XXXXXXX                     XLLL   XXXXXXX  X",
     "X    LLL                D                                      DLLL            X",
     "X  XXXXX                D      XXXXX           SSSS            DLLL  XXXXX     X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXX",
     # 8º Andar
     "X         R      LLL    X         R      LLL                   X   LLL   R     X",
@@ -59,6 +65,8 @@ DADOS_MAPA = [
     "X          XXXXX LLL    X          XXXXX LLL                   X   LLL XXXXX   X",
     "X                LLL    D                LLL                   D   LLL         X",
     "X    XXXXX      SSSS    D      XXXXX     LLL                   D   LLL XXXXX   X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXX",
     # 7º Andar
     "X    LLL      R         X        LLL       R                   XLLL      R     X",
@@ -66,6 +74,8 @@ DADOS_MAPA = [
     "X    LLLXXXX            X        LLLXXXX                       XLLL   XXXXXX   X",
     "X    LLL                D        LLL                           DLLL            X",
     "X    LLL        XXXXX   D        LLL   XXXXX                   DLLL     XXXXX  X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXX",
     # 6º Andar
     "X          R     LLL    X          R     LLL                   X   LLL    R    X",
@@ -73,6 +83,8 @@ DADOS_MAPA = [
     "X                LLL    X              M LLL XXXX              X   LLL   M     X",
     "X            XXXXXX     D          XXXXXXLLL                   D   LLL XXXXXX  X",
     "X                       D                LLL                   D   LLL         X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXX",
     # 5º Andar
     "X    LLL     R          X        LLL      R                    XLLL     R      X",
@@ -80,6 +92,8 @@ DADOS_MAPA = [
     "X    LLL XXXXX          X        LLL XXXXX                     XLLL   XXXXX    X",
     "X    LLL                D        LLL                           DLLL            X",
     "X  XXXX        SSSSS    D      XXXX                            DLLL  XXXX      X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXX",
     # 4º Andar
     "X         R      LLL    X         R      LLL                   X   LLL    R    X",
@@ -87,6 +101,8 @@ DADOS_MAPA = [
     "X            XXXXX      X          XXXXX LLL                   X   LLL XXXXX   X",
     "X                       D                LLL                   D   LLL         X",
     "X    XXXXX              D      XXXXX     LLL                   D   LLL XXXXX   X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXX",
     # 3º Andar
     "X    LLL      R         X        LLL       R                   XLLL      R     X",
@@ -94,6 +110,8 @@ DADOS_MAPA = [
     "X    LLLXXXX            X        LLLXXXX                       XLLL   XXXXXX   X",
     "X    LLL                D        LLL                           DLLL            X",
     "X    LLL        XXXXX   D        LLL   XXXXX                   DLLL     XXXXX  X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXX",
     # 2º Andar
     "X          R     LLL    X          R     LLL                   X   LLL    R    X",
@@ -101,6 +119,8 @@ DADOS_MAPA = [
     "X                LLL    X              M LLL                   X   LLL   M     X",
     "X            XXXXX      D          XXXXX LLL                   D   LLL XXXXX   X",
     "X                       D                LLL                   D   LLL         X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXXXXXXXXXLLLXXXXXXXXXXXXXXXXX",
     # Térreo / Recepção do Prédio e Reservatório (Arena do Boss)
     "X    LLL     R          X        LLL      R                    X   R     R     X",
@@ -108,6 +128,8 @@ DADOS_MAPA = [
     "X    LLLXXXX  SSSS      X        LLLXXXX     H                 X     XXXXXX    X",
     "X    LLL                D        LLL        XXXX               D               X",
     "X    LLL                D        LLL                           D           E   X",
+    "X                                                                              X",
+    "X                                                                              X",
     "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
 ]
 
