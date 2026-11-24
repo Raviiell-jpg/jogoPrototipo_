@@ -1,0 +1,11 @@
+{
+    "usuario": {
+        "id": 4,
+        "username": "Rafael",
+        "email": "rafael@sertao.com",
+        "nome_completo": "Rafael (Game Master)",
+        "is_gm": true
+    },
+    "modo": "normal",
+    "horario": "2026-11-19T21:40:36.876798"
+}

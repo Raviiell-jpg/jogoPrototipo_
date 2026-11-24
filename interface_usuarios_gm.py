@@ -29,7 +29,7 @@ ESTILO_BASE = """
     QDialog, QWidget {
         background-color: #0d140e;
         color: #d9ffd0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: 'Press Start 2P';
     }
     QTabWidget::pane {
         border: 2px solid #234d20;
@@ -142,7 +142,7 @@ class DialogLoginCadastro(QDialog):
         # Cabeçalho
         titulo = QLabel("ACESSO DE SOBREVIVENTE", self)
         titulo.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        titulo.setFont(QFont("Arial", 16, QFont.Weight.Bold))
+        titulo.setFont(QFont(FONTE_JOGO, 16, QFont.Weight.Bold))
         titulo.setStyleSheet("color: #39ff14; letter-spacing: 2px; margin-bottom: 4px;")
         layout_principal.addWidget(titulo)
 
@@ -506,7 +506,7 @@ class DialogCadastrarUsuarioGM(QDialog):
         layout.setSpacing(10)
 
         titulo = QLabel("➕ CADASTRAR NOVO USUÁRIO")
-        titulo.setFont(QFont("Arial", 14, QFont.Weight.Bold))
+        titulo.setFont(QFont(FONTE_JOGO, 14, QFont.Weight.Bold))
         titulo.setStyleSheet("color: #39ff14;")
         layout.addWidget(titulo)
 
@@ -591,7 +591,7 @@ class DialogEditarUsuarioGM(QDialog):
         layout.setSpacing(10)
 
         titulo = QLabel(f"✏️ EDITAR USUÁRIO: {usuario['username']}")
-        titulo.setFont(QFont("Arial", 14, QFont.Weight.Bold))
+        titulo.setFont(QFont(FONTE_JOGO, 14, QFont.Weight.Bold))
         titulo.setStyleSheet("color: #39ff14;")
         layout.addWidget(titulo)
 
@@ -685,7 +685,7 @@ class DialogRegistroSpeedrunGM(QDialog):
         layout.setSpacing(10)
 
         lbl_titulo = QLabel(titulo_str.upper())
-        lbl_titulo.setFont(QFont("Arial", 14, QFont.Weight.Bold))
+        lbl_titulo.setFont(QFont(FONTE_JOGO, 14, QFont.Weight.Bold))
         lbl_titulo.setStyleSheet("color: #39ff14;")
         layout.addWidget(lbl_titulo)
 
@@ -727,7 +727,7 @@ class DialogRegistroSpeedrunGM(QDialog):
         layout.addLayout(layout_tempo)
 
         self.lbl_tempo_preview = QLabel("Tempo Formatado: 00:00.000")
-        self.lbl_tempo_preview.setStyleSheet("color: #39ff14; font-family: monospace; font-size: 13px; font-weight: bold;")
+        self.lbl_tempo_preview.setStyleSheet(f"color: #39ff14; font-family: '{FONTE_JOGO}'; font-size: 13px; font-weight: bold;")
         layout.addWidget(self.lbl_tempo_preview)
 
         self.spin_minutos.valueChanged.connect(self._atualizar_preview_tempo)
@@ -862,7 +862,7 @@ class DialogDetalhesSpeedrun(QDialog):
         layout.setSpacing(12)
 
         titulo = QLabel(f"👁️ DETALHES DA CORRIDA #{speedrun.get('id')}")
-        titulo.setFont(QFont("Arial", 14, QFont.Weight.Bold))
+        titulo.setFont(QFont(FONTE_JOGO, 14, QFont.Weight.Bold))
         titulo.setStyleSheet("color: #39ff14;")
         layout.addWidget(titulo)
 
@@ -894,12 +894,12 @@ class DialogDetalhesSpeedrun(QDialog):
         for rotulo, valor in itens:
             h = QHBoxLayout()
             lbl_r = QLabel(rotulo)
-            lbl_r.setFont(QFont("Arial", 11, QFont.Weight.Bold))
+            lbl_r.setFont(QFont(FONTE_JOGO, 11, QFont.Weight.Bold))
             lbl_r.setStyleSheet("color: #adff2f;")
             lbl_r.setFixedWidth(160)
 
             lbl_v = QLabel(str(valor))
-            lbl_v.setFont(QFont("Arial", 11))
+            lbl_v.setFont(QFont(FONTE_JOGO, 11))
             if "Concluída" in str(valor):
                 lbl_v.setStyleSheet(f"color: {cor_status}; font-weight: bold;")
             elif "Oficial" in str(valor) or "Desclassificada" in str(valor):
@@ -938,7 +938,7 @@ class JanelaPainelGM(QDialog):
         # Cabeçalho GM
         cabecalho = QHBoxLayout()
         titulo = QLabel("👑 PAINEL DE CONTROLE DO GAME MASTER (GM)")
-        titulo.setFont(QFont("Arial", 15, QFont.Weight.Bold))
+        titulo.setFont(QFont(FONTE_JOGO, 15, QFont.Weight.Bold))
         titulo.setStyleSheet("color: #39ff14; letter-spacing: 1px;")
         cabecalho.addWidget(titulo)
 
@@ -1110,7 +1110,7 @@ class JanelaPainelGM(QDialog):
             item_id.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
             item_user = QTableWidgetItem(u["username"])
-            item_user.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            item_user.setFont(QFont(FONTE_JOGO, 10, QFont.Weight.Bold))
 
             item_email = QTableWidgetItem(u["email"])
             item_nome = QTableWidgetItem(u["nome_completo"] or "-")
@@ -1393,12 +1393,12 @@ class JanelaPainelGM(QDialog):
             item_id.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
             item_user = QTableWidgetItem(r["username"])
-            item_user.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            item_user.setFont(QFont(FONTE_JOGO, 10, QFont.Weight.Bold))
 
             item_tempo = QTableWidgetItem(r["tempo_formatado"])
             item_tempo.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             item_tempo.setForeground(QColor("#39ff14"))
-            item_tempo.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            item_tempo.setFont(QFont(FONTE_JOGO, 10, QFont.Weight.Bold))
 
             inimigos_txt = f"{r['inimigos_derrotados']}/{r.get('total_inimigos_fase', r.get('total_inimigos', 4))}"
             item_inimigos = QTableWidgetItem(inimigos_txt)
@@ -1526,7 +1526,7 @@ class JanelaPainelGM(QDialog):
             (self.lbl_kpi_inimigos, "#ffd700"),
         ]:
             lbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            lbl.setFont(QFont("Arial", 11, QFont.Weight.Bold))
+            lbl.setFont(QFont("Press Start 2P", 11, QFont.Weight.Bold))
             lbl.setStyleSheet(f"background: #172818; border: 1px solid #285425; border-radius: 4px; padding: 8px; color: {cor};")
             layout_kpi.addWidget(lbl)
 
@@ -1582,16 +1582,18 @@ class JanelaPainelGM(QDialog):
         barra_exportar.setSpacing(12)
 
         lbl_exp = QLabel("Exportar Dados do Relatório:")
-        lbl_exp.setFont(QFont("Arial", 11, QFont.Weight.Bold))
+        lbl_exp.setFont(QFont("Press Start 2P", 11, QFont.Weight.Bold))
         lbl_exp.setStyleSheet("color: #adff2f;")
         barra_exportar.addWidget(lbl_exp)
 
         btn_pdf = QPushButton("📄 EXPORTAR RELATÓRIO EM PDF")
+        btn_pdf.setFont(QFont("Press Start 2P", 10, QFont.Weight.Bold))
         btn_pdf.setStyleSheet("background: #8b1111; border: 1px solid #ff4444; color: #ffffff; font-weight: bold; padding: 9px 18px;")
         btn_pdf.clicked.connect(self._exportar_relatorio_pdf)
         barra_exportar.addWidget(btn_pdf)
 
         btn_csv = QPushButton("📊 EXPORTAR RELATÓRIO EM CSV (EXCEL)")
+        btn_csv.setFont(QFont("Press Start 2P", 10, QFont.Weight.Bold))
         btn_csv.setStyleSheet("background: #0f4f1f; border: 1px solid #39ff14; color: #ffffff; font-weight: bold; padding: 9px 18px;")
         btn_csv.clicked.connect(self._exportar_relatorio_csv)
         barra_exportar.addWidget(btn_csv)
@@ -1792,7 +1794,7 @@ class JanelaPainelGM(QDialog):
             item_data = QTableWidgetItem(str(l["data_hora"])[:19])
             item_cmd = QTableWidgetItem(l["comando"])
             item_cmd.setForeground(QColor("#39ff14"))
-            item_cmd.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+            item_cmd.setFont(QFont(FONTE_JOGO, 10, QFont.Weight.Bold))
 
             item_user = QTableWidgetItem(l["username"] or "Sistema")
             item_det = QTableWidgetItem(l["detalhes"] or "")
@@ -1811,7 +1813,7 @@ class JanelaPainelGM(QDialog):
         layout.setSpacing(14)
 
         info = QLabel("🎮 ATALHOS E FERRAMENTAS DO GAME MASTER (GM) DURANTE A PARTIDA")
-        info.setFont(QFont("Arial", 13, QFont.Weight.Bold))
+        info.setFont(QFont(FONTE_JOGO, 13, QFont.Weight.Bold))
         info.setStyleSheet("color: #39ff14;")
         layout.addWidget(info)
 
@@ -1843,7 +1845,7 @@ class JanelaPainelGM(QDialog):
             h = QHBoxLayout(linha)
 
             lbl_tecla = QLabel(tecla)
-            lbl_tecla.setFont(QFont("Consolas", 12, QFont.Weight.Bold))
+            lbl_tecla.setFont(QFont(FONTE_JOGO, 12, QFont.Weight.Bold))
             lbl_tecla.setStyleSheet("color: #adff2f; background: #003300; padding: 4px 8px; border-radius: 3px;")
             lbl_tecla.setFixedWidth(140)
 
